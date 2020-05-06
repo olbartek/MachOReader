@@ -16,6 +16,9 @@ struct MachOReader: ParsableCommand {
     
     @Flag(name: .shortAndLong, help: "Read fat header.")
     private var fat: Bool
+    
+    @Flag(name: .shortAndLong, help: "Print raw values.")
+    private var raw: Bool
 
     func validate() throws {
         guard let _ = FileHandle(forReadingAtPath: filePath) else {
@@ -24,8 +27,23 @@ struct MachOReader: ParsableCommand {
     }
     
     func run() throws {
-        print("File path:")
-        print(filePath)
+        let machReader = try MachReader(filePath: filePath)
+        
+        if header {
+            let machHeader = try machReader.readHeader()
+            printNewLine()
+            print(raw ? machHeader.hexDescription : machHeader.description)
+        }
+        
+        if fat {
+            let fatHeader = try machReader.readFATHeader()
+            printNewLine()
+            print(raw ? fatHeader.hexDescription : fatHeader.description)
+        }
+    }
+    
+    private func printNewLine() {
+        print("\n")
     }
 }
 
