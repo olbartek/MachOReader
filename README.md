@@ -1,5 +1,21 @@
 # MachOReader
 
+### Installation
+
+```
+$ git clone git@github.com:olbartek/MachOReader.git
+$ cd MachOReader
+$ swift build
+$ swift run machoreader -rh <macho_file_path>
+```
+
+Additionally when needed
+
+```
+$ swift build --configuration release
+$ cp -f .build/release/machoreader /usr/local/bin/machoreader
+```
+
 ### Usage
 
 ```
