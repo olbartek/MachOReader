@@ -3,6 +3,7 @@ import ArgumentParser
 
 struct MachOReader: ParsableCommand {
     static let configuration = CommandConfiguration(
+        commandName: "machoreader",
         abstract: "Mach-O file format reader, written entirely in Swift.",
         subcommands: []
     )
@@ -17,17 +18,14 @@ struct MachOReader: ParsableCommand {
     private var fat: Bool
 
     func validate() throws {
-        let fileManager = FileManager.default
-        
-        guard fileManager.fileExists(atPath: filePath) else {
+        guard let _ = FileHandle(forReadingAtPath: filePath) else {
             throw ValidationError("'<file-path>' must point to the existing executable.")
         }
     }
     
-    func run() {
-        
+    func run() throws {
+        print("File path:")
         print(filePath)
-        
     }
 }
 
