@@ -21,7 +21,7 @@ $ cp -f .build/release/machoreader /usr/local/bin/machoreader
 ```
 OVERVIEW: Mach-O file format reader, written entirely in Swift.
 
-USAGE: machoreader <file-path> [--header] [--fat]
+USAGE: machoreader <file-path> [--header] [--fat] [--raw]
 
 ARGUMENTS:
   <file-path>             The file path of Mach-O executable.
@@ -29,5 +29,6 @@ ARGUMENTS:
 OPTIONS:
   -h, --header            Read header.
   -f, --fat               Read fat header.
+  -r, --raw               Print raw values.
   -h, --help              Show help information.
 ```
