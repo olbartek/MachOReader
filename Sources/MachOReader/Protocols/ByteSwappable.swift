@@ -22,3 +22,11 @@ extension fat_arch: ByteSwappable {
         return copy
     }
 }
+
+extension fat_arch_64: ByteSwappable {
+    var byteSwapped: fat_arch_64 {
+        var copy = self
+        swap_fat_arch_64(&copy, 1, NX_LittleEndian)
+        return copy
+    }
+}
