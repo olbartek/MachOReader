@@ -13,18 +13,19 @@ internal class MachHeaderReader: MagicReading {
         
         switch magic.fileArchitecture {
         case .arch32bit:
-            let header = try read32BitHeader()
+            let header = try read32BitHeader(shouldSwapBytes: magic.shouldSwapBytes)
             return .arch32(header)
         case .arch64bit:
-            let header = try read64BitHeader()
+            let header = try read64BitHeader(shouldSwapBytes: magic.shouldSwapBytes)
             return .arch64(header)
         case .fat32bit, .fat64bit:
             throw Error.invalidArchitecture(magic.fileArchitecture)
         }
     }
     
-    private func read32BitHeader() throws -> MachHeader32 {
-        let header = fileReader.read(dataType: mach_header.self)
+    private func read32BitHeader(shouldSwapBytes: Bool) throws -> MachHeader32 {
+        let header = fileReader.read(dataType: mach_header.self,
+                                     shouldSwapBytes: shouldSwapBytes)
         
         return MachHeader32(
             magic: try MagicMapper().map(input: header.magic),
@@ -37,8 +38,9 @@ internal class MachHeaderReader: MagicReading {
         )
     }
     
-    private func read64BitHeader() throws -> MachHeader64 {
-        let header = fileReader.read(dataType: mach_header_64.self)
+    private func read64BitHeader(shouldSwapBytes: Bool) throws -> MachHeader64 {
+        let header = fileReader.read(dataType: mach_header_64.self,
+                                     shouldSwapBytes: shouldSwapBytes)
         
         return MachHeader64(
             magic: try MagicMapper().map(input: header.magic),
